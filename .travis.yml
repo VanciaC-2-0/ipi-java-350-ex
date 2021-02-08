@@ -4,8 +4,8 @@ addons:
   sonarcloud:
     organization: "vanciac-2-0"
     #token:
-      #secure: "**************************" # encrypted value of your token
+      #hsecure: "**************************" # encrypted value of your token
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=java350vanciagit st
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=java350vancia
