@@ -40,4 +40,23 @@ public class EmployeTest {
         //Then
         Assertions.assertThat(anneeAnciennete).isEqualTo(0);
     }
+
+    @Test
+    public void testGetPrimeAnnuelle(){
+        //Given
+        Integer performance = 1;
+        String matricule = "T12345";
+        Double tauxActivite = 1.0;
+        Long nbAnneesAnciennete = 0L;
+
+        Employe employe = new Employe("Doe", "Jonh", matricule, LocalDate.now().minusYears(nbAnneesAnciennete),
+                1500d, performance, tauxActivite);
+
+        //When
+        Double prime = employe.getPrimeAnnuelle();
+
+        //Then
+        Double primeAttendue = 1000.0;
+        Assertions.assertThat(prime).isEqualTo(primeAttendue);
+    }
 }
