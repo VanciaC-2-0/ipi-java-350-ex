@@ -28,7 +28,7 @@ class EmployeRepositoryTest {
         //When
         String lastMatricule = employeRepository.findLastMatricule();
         //Then
-        Assertions.assertThat(lastMatricule).isEqualTo(12345);
+        Assertions.assertThat(lastMatricule).isEqualTo("12345");
     }
 
     @Test
