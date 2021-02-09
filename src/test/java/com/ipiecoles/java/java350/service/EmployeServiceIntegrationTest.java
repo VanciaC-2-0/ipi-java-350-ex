@@ -5,39 +5,37 @@ import com.ipiecoles.java.java350.model.NiveauEtude;
 import com.ipiecoles.java.java350.model.Poste;
 import com.ipiecoles.java.java350.repository.EmployeRepository;
 import org.assertj.core.api.Assertions;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.List;
 
-@SpringBootTest
-class EmployeServiceTest {
+@ExtendWith(MockitoExtension.class)
+class EmployeServiceIntegrationTest {
 
-    @Autowired
+    @InjectMocks
     private EmployeService employeService;
-    @Autowired
+    @Mock
     private EmployeRepository employeRepository;
 
-    public void testEmbauchePremierEmploye() throws EmployeException {
-        //Given Pas d'employé en base
+    public void EmbauchePremierEmploye() throws EmployeException {
+        //Given
         String nom = "Doe";
         String prenom = "Jonh";
         Poste poste = Poste.TECHNICIEN;
         NiveauEtude niveauEtude = NiveauEtude.BTS_IUT;
         Double tempsPartiel = 1.0;
-        //Simuler qu'aucun employé n'es présent (ou du moins aucun matricule)
-        Mockito.when(employeRepository.findLastMatricule()).thenReturn(null);
-        //simuler que la recherche par matricule ne renvoie pas de résultats
-        Mockito.when(employeRepository.findByMatricule("T00001")).thenReturn(null);
 
 
         //When
-        Employe employe = employeService.embaucheEmploye(nom, prenom, poste, niveauEtude, tempsPartiel);
+        employeService.embaucheEmploye(nom, prenom, poste, niveauEtude, tempsPartiel);
 
         //Then
-        //Employe employe = employeRepository.findByMatricule("T00001");
+        Employe employe = employeRepository.findByMatricule("T00001");
         Assertions.assertThat(employe).isNotNull();
         //OU
         //List<Employe> employes = employeRepository.findAll();
