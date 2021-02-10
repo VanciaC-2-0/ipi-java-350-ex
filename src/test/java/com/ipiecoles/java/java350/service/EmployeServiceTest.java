@@ -5,10 +5,12 @@ import com.ipiecoles.java.java350.model.NiveauEtude;
 import com.ipiecoles.java.java350.model.Poste;
 import com.ipiecoles.java.java350.repository.EmployeRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityExistsException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,6 +22,7 @@ class EmployeServiceTest {
     @Autowired
     private EmployeRepository employeRepository;
 
+    @Test
     public void testEmbauchePremierEmploye() throws EmployeException {
         //Given Pas d'employé en base
         String nom = "Doe";
@@ -52,4 +55,27 @@ class EmployeServiceTest {
 
     }
 
+    @Test
+    public void testEmbaucheEmployeExisteDeja() throws EmployeException {
+        //Given Pas d'employés en base
+        String nom = "Doe";
+        String prenom = "John";
+        Poste poste = Poste.TECHNICIEN;
+        NiveauEtude niveauEtude = NiveauEtude.BTS_IUT;
+        Double tempsPartiel = 1.0;
+        Employe employeExistant = new Employe("Doe", "Jane", "T00001", LocalDate.now(), 1500d, 1, 1.0);
+        //Simuler qu'aucun employé n'est présent (ou du moins aucun matricule)
+        Mockito.when(employeRepository.findLastMatricule()).thenReturn(null);
+        //Simuler que la recherche par matricule renvoie un employé (un employé a été embauché entre temps)
+        Mockito.when(employeRepository.findByMatricule("T00001")).thenReturn(employeExistant);
+        //When
+        try {
+            employeService.embaucheEmploye(nom, prenom, poste, niveauEtude, tempsPartiel);
+            Assertions.fail("embaucheEmploye aurait dû lancer une exception");
+        } catch (Exception e) {
+            //Then
+            Assertions.assertThat(e).isInstanceOf(EntityExistsException.class);
+            Assertions.assertThat(e.getMessage()).isEqualTo("L'employé de matricule T00001 existe déjà en BDD");
+        }
+    }
 }
