@@ -6,6 +6,7 @@ import com.ipiecoles.java.java350.model.Poste;
 import com.ipiecoles.java.java350.repository.EmployeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,15 +38,14 @@ class EmployeServiceTest {
 
 
         //When
-        Employe employe = employeService.embaucheEmploye(nom, prenom, poste, niveauEtude, tempsPartiel);
+        employeService.embaucheEmploye(nom, prenom, poste, niveauEtude, tempsPartiel);
 
         //Then
-        //Employe employe = employeRepository.findByMatricule("T00001");
+        ArgumentCaptor<Employe> employeArgumentCaptor = ArgumentCaptor.forClass(Employe.class);
+        // Mockito verify(employeRepository, Mockito.times(1)).save(employeArgumentCaptor.capture());
+        Mockito.verify(employeRepository).save(employeArgumentCaptor.capture());
+        Employe employe = employeArgumentCaptor.getValue();
         Assertions.assertThat(employe).isNotNull();
-        //OU
-        //List<Employe> employes = employeRepository.findAll();
-        //Assertions.assertThat(employes).hasSize(1);
-        //Employe employe = employeRepository.findAll().get(0);
         Assertions.assertThat(employe.getNom()).isEqualTo(nom);
         Assertions.assertThat(employe.getPrenom()).isEqualTo(prenom);
         Assertions.assertThat(employe.getSalaire()).isEqualTo(1825.46);
@@ -77,5 +77,27 @@ class EmployeServiceTest {
             Assertions.assertThat(e).isInstanceOf(EntityExistsException.class);
             Assertions.assertThat(e.getMessage()).isEqualTo("L'employé de matricule T00001 existe déjà en BDD");
         }
+    }
+    @Test
+    public void testEmbaucheLimiteMatricule() {
+        //Given Pas d'employés en base
+        String nom = "Doe";
+        String prenom = "John";
+        Poste poste = Poste.TECHNICIEN;
+        NiveauEtude niveauEtude = NiveauEtude.BTS_IUT;
+        Double tempsPartiel = 1.0;
+        //Simuler qu'il y a 99999 employés en base (ou du moins que le matricule le plus haut
+        //est X99999
+        Mockito.when(employeRepository.findLastMatricule()).thenReturn("99999");
+        //When
+        try {
+            employeService.embaucheEmploye(nom, prenom, poste, niveauEtude, tempsPartiel);
+            Assertions.fail("embaucheEmploye aurait dû lancer une exception");
+        } catch (EmployeException e) {
+            //Then
+            Assertions.assertThat(e.getMessage()).isEqualTo("Limite des 100000 matricules atteinte !");
+            Mockito.verify(employeRepository, Mockito.never()).save(Mockito.any(Employe.class));
+        }
+
     }
 }
