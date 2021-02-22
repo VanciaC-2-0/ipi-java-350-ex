@@ -146,7 +146,8 @@ public class EmployeTest {
     // 2022: samedi 365j/an; 105j sam/dim; 25j CB; 7j férié pas w-e
     // 2032: jeudi 366j/an; 105j sam/dim; 25j CB; 7j férié pas w-e.
     // 2024: lundi 366j/an; 104j sam/dim; 25j CB; 7j férié pas w-e.
-    // 2044: vendredi 366j/an; 106j sam/dim; 25j CB; 7j férié pas w-e.
+    // 2044: vendredi 366j/an; 106j sam/dim; 25j CB; 10j férié pas w-e.
+    // 2026: jeudi 365j/an; 104j sam/dim; 25j CB; 9j férier pas w-e
     @ParameterizedTest(name = "dateRef {0}, nbRttAttendu {1}")
     @CsvSource({
             "2019-01-01, 8",
@@ -154,7 +155,8 @@ public class EmployeTest {
             "2022-01-01, 10",
             "2032-01-01, 11",
             "2024-01-01, 9",
-            "2044-01-01, 9"
+            "2044-01-01, 9",
+            "2026-01-01, 9"
     })
     public void testGetNbRtt(LocalDate dateRef, Integer nbRttAttendu){
         //Given
