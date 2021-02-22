@@ -73,6 +73,7 @@ public class Employe {
      * - Nombre de jours fériés ne tombant pas le week-end
      * - Nombre de congés payés
      *
+     * 
      * @param dateReference la date à laquelle on va calculer le nombre de RTT pour l'année
      * @return Nombre de jours de RTT pour l'employé l'année de la date de référence
      * au prorata du temps d'activité
