@@ -5,10 +5,12 @@ import com.ipiecoles.java.java350.model.Employe;
 import com.ipiecoles.java.java350.model.NiveauEtude;
 import com.ipiecoles.java.java350.model.Poste;
 import com.ipiecoles.java.java350.repository.EmployeRepository;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -140,5 +142,30 @@ public class EmployeServiceTest {
         //When/Then
         EmployeException e = Assertions.assertThrows(EmployeException.class, () -> employeService.embaucheEmploye(nom, prenom, poste, niveauEtude, tempsPartiel));
         Assertions.assertEquals("Limite des 100000 matricules atteinte !", e.getMessage());
+    }
+
+
+    //TESTER METHODE calculPerformanceCommercial
+    //Tester si matricule null
+    //Tester si cA traite >  objectif cA
+    //Tester si cA traite  null
+    //Tester si objectif cA null
+    //Tester si cA traite est négatif
+    //Tester si objectif cA négatif
+    @Test
+    public void testCalculPerformanceCommercialMatriculeIsNull() throws EmployeException {
+        //Given
+        String matricule = null;
+        Long caTraite = 15L;
+        Long objectifCa = 15L;
+        try{
+            employeService.calculPerformanceCommercial(matricule, caTraite, objectifCa);
+            Assertions.fail("calculPerformanceCommercial aurait dû lancer une exception");
+        }
+        catch (Exception e){
+            //When
+            //Then
+            Assertions.assertEquals("Le matricule ne peut être null et doit commencer par un C !", e.getMessage());
+        }
     }
 }
