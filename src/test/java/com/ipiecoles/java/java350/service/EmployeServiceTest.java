@@ -227,7 +227,7 @@ public class EmployeServiceTest {
     })
     public void testCalculPerformanceCommercialAttendu(Integer performance, String matricule, Long caTraite, Long objectifCa, Integer performanceAttendu) throws EmployeException {
         //Given
-        Employe employe = new Employe("Doe", "Jonh", matricule, LocalDate.now(), Entreprise.SALAIRE_BASE, performance, 1.0);
+        Employe employe = new Employe("Tako", "Yaki", matricule, LocalDate.now(), Entreprise.SALAIRE_BASE, performance, 1.0);
         Mockito.when(employeRepository.findByMatricule(matricule)).thenReturn(employe);
         Mockito.when(employeRepository.avgPerformanceWhereMatriculeStartsWith("C")).thenReturn(1.0);
         when(employeRepository.save(Mockito.any(Employe.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
