@@ -153,19 +153,43 @@ public class EmployeServiceTest {
     //Tester si cA traite est négatif
     //Tester si objectif cA négatif
     @Test
-    public void testCalculPerformanceCommercialMatriculeIsNull() throws EmployeException {
+    public void testCalculPerformanceCommercialMatriculeIsNull(){
         //Given
         String matricule = null;
         Long caTraite = 15L;
         Long objectifCa = 15L;
-        try{
-            employeService.calculPerformanceCommercial(matricule, caTraite, objectifCa);
-            Assertions.fail("calculPerformanceCommercial aurait dû lancer une exception");
-        }
-        catch (Exception e){
-            //When
-            //Then
-            Assertions.assertEquals("Le matricule ne peut être null et doit commencer par un C !", e.getMessage());
-        }
+
+        //When
+        //Then
+        EmployeException e = Assertions.assertThrows(EmployeException.class, () -> employeService.calculPerformanceCommercial(matricule, caTraite, objectifCa));
+        Assertions.assertEquals("Le matricule ne peut être null et doit commencer par un C !", e.getMessage());
+    }
+    @Test
+    public void testCalculPerformanceCommercialcATraiteIsNull(){
+        //Given
+        String matricule = "C00001";
+        Long caTraite = null;
+        Long objectifCa = 15L;
+
+        //When
+        //Then
+        EmployeException e = Assertions.assertThrows(EmployeException.class, () -> employeService.calculPerformanceCommercial(matricule, caTraite, objectifCa));
+        Assertions.assertEquals("Le chiffre d'affaire traité ne peut être négatif ou null !", e.getMessage());
+    }
+    @Test
+    public void testCalculPerformanceCommercialObjectifCaIsNull(){
+        //Given
+        String matricule = "C00001";
+        Long caTraite = 15L;
+        Long objectifCa = null;
+
+        //When
+        //Then
+        EmployeException e = Assertions.assertThrows(EmployeException.class, () -> employeService.calculPerformanceCommercial(matricule, caTraite, objectifCa));
+        Assertions.assertEquals("L'objectif de chiffre d'affaire ne peut être négatif ou null !", e.getMessage());
+    }
+    @Test
+    public void testCalculPerformanceCommercialCaTraiteIsSup(){
+
     }
 }
