@@ -79,4 +79,17 @@ public class EmployeServiceIntegrationTest {
         Employe employe = employeRepository.findByMatricule(matricule);
         Assertions.assertEquals(6, employe.getPerformance());
     }
+
+    @Test
+    public void integrationCalculPerformanceCommercialAvgPerf(){
+        //Given
+        Employe employe1 = new Employe("Katsu", "Don", "C00001", LocalDate.now(), Entreprise.SALAIRE_BASE, 2, 1.0);
+        Employe employe2 = new Employe("Okono", "Miyaki", "C00002", LocalDate.now(),Entreprise.SALAIRE_BASE, 4, 1.0);
+        employeRepository.save(employe1);
+        employeRepository.save(employe2);
+        //When
+        Double avgPerformance = employeRepository.avgPerformanceWhereMatriculeStartsWith("C");
+        //Then
+        Assertions.assertEquals(3.0, avgPerformance);
+    }
 }
