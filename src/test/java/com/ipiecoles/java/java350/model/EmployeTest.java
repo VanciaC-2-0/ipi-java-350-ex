@@ -77,4 +77,63 @@ public class EmployeTest {
         //Then
         Assertions.assertThat(prime).isEqualTo(1000.0);
     }
+
+
+    //TEST DE LA METHODE augmenterSalaire
+
+    //Test augmentation basique en changeant le salaire et le pourcentage
+    //Test si salaire est null
+    //Test si pourcentage est 0
+    //Test si pourcentage est négative
+
+    @ParameterizedTest(name = "salaireBase {0} : pourcentageAugmentation {1} : salaireApresAugmentation {2}")
+    @CsvSource({
+            "1000.0, 10.0, 1100.0",
+            "1000.0, 50.0, 1500.0",
+            "2500.0, 10.0, 2750.0",
+            "2000.0, 15.5, 2310.0",
+            "1234, 28.5, 1585.69"
+    })
+    public void testAugmenterSalaireBase(double salaireBase, double pourcentage, double salaireApresAugmentation){
+        //Given
+        Employe employe = new Employe();
+        employe.setSalaire(salaireBase);
+        //When
+        employe.augmenterSalaire(pourcentage);
+        //Then
+        Assertions.assertThat(employe.getSalaire()).isEqualTo(salaireApresAugmentation);
+    }
+
+    @Test
+    public void testAugmenterSalaireIfSalaireIsNull(){
+        //Given
+        Employe employe = new Employe();
+        employe.setSalaire(null);
+        //When
+        employe.augmenterSalaire(10.0);
+        //Then
+        Assertions.assertThat(employe.getSalaire()).isEqualTo(1673.34);
+    }
+
+    @Test
+    public void testAugmenterSalaireIfPourcentageIsZero(){
+        //Given
+        Employe employe = new Employe();
+        employe.setSalaire(1000.0);
+        //When
+        employe.augmenterSalaire(0.0);
+        //Then
+        Assertions.assertThat(employe.getSalaire()).isEqualTo(1000.0);
+    }
+
+    @Test
+    public void testAugmenterSalaireIfPourcentageIsNegative(){
+        //Given
+        Employe employe = new Employe();
+        employe.setSalaire(1000.0);
+        //When
+        employe.augmenterSalaire(-10.0);
+        //Then
+        Assertions.assertThat(employe.getSalaire()).isEqualTo(1000.0);
+    }
 }
