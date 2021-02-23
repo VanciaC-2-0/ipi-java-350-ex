@@ -144,16 +144,6 @@ public class EmployeServiceTest {
         Assertions.assertEquals("Limite des 100000 matricules atteinte !", e.getMessage());
     }
 
-    @Test
-    public void testEmpbaucheEmployeCalculSalaireIfTpsPartielIsNull(){
-        String nom = "Doe";
-        String prenom = "John";
-        Poste poste = Poste.MANAGER;
-        NiveauEtude niveauEtude = NiveauEtude.MASTER;
-        Double tempsPartiel = null;
-    }
-
-
     //TESTER METHODE calculPerformanceCommercial
     //Tester si matricule null
     //Tester si cA traite  null
