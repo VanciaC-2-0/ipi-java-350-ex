@@ -231,19 +231,16 @@ public class EmployeServiceTest {
     //Si cA > objCa * 0.95 && cA < objCa * 1.05
     //Si cA < objCa * 1.2 && cA > objCa * 1.05
     //Si cA > objCa * 1.2
+    //Si cA > objCa * 1.2 + bonus perf
+    //Si cA > objCa * 0.8 && cA < objCa * 0.95 et perf haute
     @ParameterizedTest(name = "performance {0}, matricule {1}, caTraite {2}, objectifCa {3}, performanceAttendu {4}")
     @CsvSource({
             "1, 'C00001', 1000, 1100, 1",
             "1, 'C00001', 1000, 1050, 1",
             "1, 'C00001', 1000, 950, 3",
             "1, 'C00001', 1000, 0, 6",
-            "1, 'C00001', 900, 1000, 1",
-            "1, 'C00001', 1025, 1000, 1",
-            "1, 'C00001', 1100, 1000, 3",
-            "1, 'C00001', 1500, 1000, 6",
-            "0, 'C00001', 1000, 0, 5",
-            "5, 'C11111', 1000, 1000, 6",
-            "1, 'C00001', 0, 0, 1"
+            "3, 'C00001', 1300, 1000, 8",
+            "8, 'C00001', 800, 1000, 7"
     })
     public void testCalculPerformanceCommercialAttendu(Integer performance, String matricule, Long caTraite, Long objectifCa, Integer performanceAttendu) throws EmployeException {
         //Given
@@ -261,5 +258,16 @@ public class EmployeServiceTest {
         Assertions.assertEquals(performanceAttendu, employeArgumentCaptor.getValue().getPerformance());
     }
 
-
+    @Test
+    public void testCalculPerformanceCommercialIfEmployeIsNull() throws EmployeException {
+        //Given
+        String matricule = "C00001";
+        Long caTraite = 15L;
+        Long objectifCa = 15L;
+        Mockito.when(employeRepository.findByMatricule(matricule)).thenReturn(null);
+        //When
+        //Then
+        EmployeException e = Assertions.assertThrows(EmployeException.class, () -> employeService.calculPerformanceCommercial(matricule, caTraite, objectifCa));
+        Assertions.assertEquals(e.getMessage(), "Le matricule " + matricule + " n'existe pas !");
+    }
 }
