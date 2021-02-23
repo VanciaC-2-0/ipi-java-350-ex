@@ -94,7 +94,7 @@ public class EmployeTest {
             "2000.0, 15.5, 2310.0",
             "1234, 28.5, 1585.69"
     })
-    private void testAugmenterSalaireBase(double salaireBase, double pourcentage, double salaireApresAugmentation) {
+    public void testAugmenterSalaireBase(double salaireBase, double pourcentage, double salaireApresAugmentation) {
         //Given
         Employe employe = new Employe();
         employe.setSalaire(salaireBase);
@@ -158,7 +158,7 @@ public class EmployeTest {
             "2044-01-01, 9",
             "2026-01-01, 9"
     })
-    private void testGetNbRtt(LocalDate dateRef, Integer nbRttAttendu){
+    public void testGetNbRtt(LocalDate dateRef, Integer nbRttAttendu){
         //Given
         Employe employe = new Employe();
         //When
