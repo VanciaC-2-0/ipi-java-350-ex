@@ -255,6 +255,7 @@ public class Employe {
         this.tempsPartiel = tempsPartiel;
     }
 
+    /*
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -273,4 +274,6 @@ public class Employe {
     public int hashCode() {
         return Objects.hash(id, nom, prenom, matricule, dateEmbauche, salaire, performance);
     }
+
+     */
 }
