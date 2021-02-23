@@ -34,7 +34,7 @@ public class EmployeRepositoryTest {
     @Test
     public void testFindLastMatriculeSingle(){
         //Given
-        employeRepository.save(new Employe("Doe", "John", "T12345", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0));
+        employeRepository.save(new Employe("Teri", "Yaki", "T12345", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0));
 
         //When
         String lastMatricule = employeRepository.findLastMatricule();
@@ -46,14 +46,29 @@ public class EmployeRepositoryTest {
     @Test
     public void testFindLastMatriculeMultiple(){
         //Given
-        employeRepository.save(new Employe("Doe", "John", "T12345", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0));
-        employeRepository.save(new Employe("Doe", "Jane", "M40325", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0));
-        employeRepository.save(new Employe("Doe", "Jim", "C06432", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0));
+        employeRepository.save(new Employe("Su", "Shi", "T12345", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0));
+        employeRepository.save(new Employe("Ma", "Ki", "M40325", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0));
+        employeRepository.save(new Employe("Yaki", "Tori", "C06432", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0));
 
         //When
         String lastMatricule = employeRepository.findLastMatricule();
 
         //Then
         Assertions.assertEquals("40325", lastMatricule);
+    }
+
+    @Test
+    public void integrationCalculPerformanceCommercialAvgPerf(){
+        //Given
+        Employe employe1 = new Employe("Katsu", "Don", "C00001", LocalDate.now(), Entreprise.SALAIRE_BASE, 2, 1.0);
+        Employe employe2 = new Employe("Okono", "Miyaki", "C00002", LocalDate.now(),Entreprise.SALAIRE_BASE, 4, 1.0);
+        employeRepository.save(employe1);
+        employeRepository.save(employe2);
+
+        //When
+        Double avgPerformance = employeRepository.avgPerformanceWhereMatriculeStartsWith("C");
+
+        //Then
+        Assertions.assertEquals(3.0, avgPerformance);
     }
 }

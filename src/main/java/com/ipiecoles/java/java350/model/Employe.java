@@ -73,6 +73,7 @@ public class Employe {
      * - Nombre de jours fériés ne tombant pas le week-end
      * - Nombre de congés payés
      *
+     *
      * @param dateReference la date à laquelle on va calculer le nombre de RTT pour l'année
      * @return Nombre de jours de RTT pour l'employé l'année de la date de référence
      * au prorata du temps d'activité
@@ -98,6 +99,8 @@ public class Employe {
             case SATURDAY:
                 nbSamediDimanche = nbSamediDimanche + 1;
                 break;
+            default:
+                nbSamediDimanche = 104;
         }
         int nbJoursFeriesSemaine = (int) Entreprise.joursFeries(dateReference).stream().filter(localDate ->
                 localDate.getDayOfWeek().getValue() <= DayOfWeek.FRIDAY.getValue()).count();
@@ -146,7 +149,16 @@ public class Employe {
     }
 
     //Augmenter salaire
-    //public void augmenterSalaire(double pourcentage){}
+    public void augmenterSalaire(double pourcentage){
+        if(this.salaire == null){
+            salaire = Entreprise.SALAIRE_BASE;
+        }
+        if(pourcentage < 0){
+            pourcentage = 0.0;
+        }
+        double salaireAugmente  = this.salaire + (this.salaire * pourcentage /100);
+        this.salaire = Math.round(salaireAugmente * 100) / 100d;
+    }
 
     public Long getId() {
         return id;
