@@ -151,7 +151,7 @@ public class EmployeServiceTest {
     //Tester si cA traite est négatif
     //Tester si objectif cA négatif
     @Test
-    public void testCalculPerformanceCommercialMatriculeIsNull(){
+    private void testCalculPerformanceCommercialMatriculeIsNull(){
         //Given
         String matricule = null;
         Long caTraite = 15L;
@@ -163,7 +163,7 @@ public class EmployeServiceTest {
         Assertions.assertEquals("Le matricule ne peut être null et doit commencer par un C !", e.getMessage());
     }
     @Test
-    public void testCalculPerformanceCommercialcATraiteIsNull(){
+    private void testCalculPerformanceCommercialcATraiteIsNull(){
         //Given
         String matricule = "C00001";
         Long caTraite = null;
@@ -175,7 +175,7 @@ public class EmployeServiceTest {
         Assertions.assertEquals("Le chiffre d'affaire traité ne peut être négatif ou null !", e.getMessage());
     }
     @Test
-    public void testCalculPerformanceCommercialObjectifCaIsNull(){
+    private void testCalculPerformanceCommercialObjectifCaIsNull(){
         //Given
         String matricule = "C00001";
         Long caTraite = 15L;
@@ -188,7 +188,7 @@ public class EmployeServiceTest {
     }
 
     @Test
-    public void testCalculPerformanceCommercialCaTraiteIsNegative(){
+    private void testCalculPerformanceCommercialCaTraiteIsNegative(){
         //Given
         String matricule = "C00001";
         Long caTraite = -15L;
@@ -201,7 +201,7 @@ public class EmployeServiceTest {
     }
 
     @Test
-    public void testCalculPerformanceCommercialObjectifCaIsNegative(){
+    private void testCalculPerformanceCommercialObjectifCaIsNegative(){
         //Given
         String matricule = "C00001";
         Long caTraite = 15L;
@@ -225,7 +225,7 @@ public class EmployeServiceTest {
             "1, 'C00001', 1000, 950, 3",
             "1, 'C00001', 1000, 0, 6",
     })
-    public void testCalculPerformanceCommercialAttendu(Integer performance, String matricule, Long caTraite, Long objectifCa, Integer performanceAttendu) throws EmployeException {
+    private void testCalculPerformanceCommercialAttendu(Integer performance, String matricule, Long caTraite, Long objectifCa, Integer performanceAttendu) throws EmployeException {
         //Given
         Employe employe = new Employe("Tako", "Yaki", matricule, LocalDate.now(), Entreprise.SALAIRE_BASE, performance, 1.0);
         Mockito.when(employeRepository.findByMatricule(matricule)).thenReturn(employe);

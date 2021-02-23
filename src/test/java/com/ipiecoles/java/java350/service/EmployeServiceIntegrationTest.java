@@ -60,7 +60,7 @@ public class EmployeServiceIntegrationTest {
     }
 
     @Test
-    public void integationCalculPerformanceCommercial() throws EmployeException{
+    private void integationCalculPerformanceCommercial() throws EmployeException{
         //Given
         String nom = "Kara";
         String prenom = "Age";
@@ -81,7 +81,7 @@ public class EmployeServiceIntegrationTest {
     }
 
     @Test
-    public void integrationCalculPerformanceCommercialAvgPerf(){
+    private void integrationCalculPerformanceCommercialAvgPerf(){
         //Given
         Employe employe1 = new Employe("Katsu", "Don", "C00001", LocalDate.now(), Entreprise.SALAIRE_BASE, 2, 1.0);
         Employe employe2 = new Employe("Okono", "Miyaki", "C00002", LocalDate.now(),Entreprise.SALAIRE_BASE, 4, 1.0);

@@ -52,7 +52,7 @@ public class EmployeTest {
             "2, 'T123456', 1.0, 1, 2400.0",
             "1, 'M12345', 1.0, 0, 1700.0",
             "1, 'M12345', 1.0, 3, 2000.0",
-
+            "1, 'M12345', 0.0, 0, 0.0",
     })
     public void testGetPrimeAnnuelle(Integer performance, String matricule, Double tauxActivite, Long nbAnneesAnciennete,
                                      Double primeAttendue) {
@@ -94,7 +94,7 @@ public class EmployeTest {
             "2000.0, 15.5, 2310.0",
             "1234, 28.5, 1585.69"
     })
-    public void testAugmenterSalaireBase(double salaireBase, double pourcentage, double salaireApresAugmentation) {
+    private void testAugmenterSalaireBase(double salaireBase, double pourcentage, double salaireApresAugmentation) {
         //Given
         Employe employe = new Employe();
         employe.setSalaire(salaireBase);
@@ -158,7 +158,7 @@ public class EmployeTest {
             "2044-01-01, 9",
             "2026-01-01, 9"
     })
-    public void testGetNbRtt(LocalDate dateRef, Integer nbRttAttendu){
+    private void testGetNbRtt(LocalDate dateRef, Integer nbRttAttendu){
         //Given
         Employe employe = new Employe();
         //When
