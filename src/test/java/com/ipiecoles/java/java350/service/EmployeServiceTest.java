@@ -135,14 +135,13 @@ public class EmployeServiceTest {
         String prenom = "John";
         Poste poste = Poste.MANAGER;
         NiveauEtude niveauEtude = NiveauEtude.MASTER;
-        Double tempsPartiel = 0.5;
+        Double tempsPartiel = null;
         when(employeRepository.findLastMatricule()).thenReturn("99999");
 
         //When/Then
         EmployeException e = Assertions.assertThrows(EmployeException.class, () -> employeService.embaucheEmploye(nom, prenom, poste, niveauEtude, tempsPartiel));
         Assertions.assertEquals("Limite des 100000 matricules atteinte !", e.getMessage());
     }
-
 
     //TESTER METHODE calculPerformanceCommercial
     //Tester si matricule null
