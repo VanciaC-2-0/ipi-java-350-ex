@@ -40,7 +40,7 @@ public class EmployeTest {
         //When
         Integer anneeAnciennete = employe.getNombreAnneeAnciennete();
         //Then
-        Assertions.assertThat(anneeAnciennete).isEqualTo(0);
+        Assertions.assertThat(anneeAnciennete).isZero();
     }
 
     @ParameterizedTest(name = "Perf {0}, matricule {1}, txActivite {2}, anciennete {3} => prime {4}")
