@@ -17,6 +17,7 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -135,13 +136,23 @@ public class EmployeServiceTest {
         String prenom = "John";
         Poste poste = Poste.MANAGER;
         NiveauEtude niveauEtude = NiveauEtude.MASTER;
-        Double tempsPartiel = null;
+        Double tempsPartiel = 0.5;
         when(employeRepository.findLastMatricule()).thenReturn("99999");
 
         //When/Then
         EmployeException e = Assertions.assertThrows(EmployeException.class, () -> employeService.embaucheEmploye(nom, prenom, poste, niveauEtude, tempsPartiel));
         Assertions.assertEquals("Limite des 100000 matricules atteinte !", e.getMessage());
     }
+
+    @Test
+    public void testEmpbaucheEmployeCalculSalaireIfTpsPartielIsNull(){
+        String nom = "Doe";
+        String prenom = "John";
+        Poste poste = Poste.MANAGER;
+        NiveauEtude niveauEtude = NiveauEtude.MASTER;
+        Double tempsPartiel = null;
+    }
+
 
     //TESTER METHODE calculPerformanceCommercial
     //Tester si matricule null
@@ -153,6 +164,19 @@ public class EmployeServiceTest {
     public void testCalculPerformanceCommercialMatriculeIsNull(){
         //Given
         String matricule = null;
+        Long caTraite = 15L;
+        Long objectifCa = 15L;
+
+        //When
+        //Then
+        EmployeException e = Assertions.assertThrows(EmployeException.class, () -> employeService.calculPerformanceCommercial(matricule, caTraite, objectifCa));
+        Assertions.assertEquals("Le matricule ne peut être null et doit commencer par un C !", e.getMessage());
+    }
+
+    @Test
+    public void testCalculPerformanceCommercialMatriculeNotStartWithC(){
+        //Given
+        String matricule = "M00001";
         Long caTraite = 15L;
         Long objectifCa = 15L;
 
@@ -223,6 +247,10 @@ public class EmployeServiceTest {
             "1, 'C00001', 1000, 1050, 1",
             "1, 'C00001', 1000, 950, 3",
             "1, 'C00001', 1000, 0, 6",
+            "1, 'C00001', 900, 1000, 1",
+            "1, 'C00001', 1025, 1000, 1",
+            "1, 'C00001', 1100, 1000, 3",
+            "1, 'C00001', 1500, 1000, 6",
     })
     public void testCalculPerformanceCommercialAttendu(Integer performance, String matricule, Long caTraite, Long objectifCa, Integer performanceAttendu) throws EmployeException {
         //Given
@@ -239,4 +267,6 @@ public class EmployeServiceTest {
         verify(employeRepository, times(1)).save(employeArgumentCaptor.capture());
         Assertions.assertEquals(performanceAttendu, employeArgumentCaptor.getValue().getPerformance());
     }
+
+
 }
