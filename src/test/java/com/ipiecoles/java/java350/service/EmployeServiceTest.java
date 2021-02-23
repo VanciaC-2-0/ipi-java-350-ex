@@ -252,7 +252,8 @@ public class EmployeServiceTest {
             "1, 'C00001', 1100, 1000, 3",
             "1, 'C00001', 1500, 1000, 6",
             "0, 'C00001', 1000, 0, 5",
-            "5, 'C11111', 1000, 1000, 6"
+            "5, 'C11111', 1000, 1000, 6",
+            "1, 'C00001', 0, 0, 1"
     })
     public void testCalculPerformanceCommercialAttendu(Integer performance, String matricule, Long caTraite, Long objectifCa, Integer performanceAttendu) throws EmployeException {
         //Given
