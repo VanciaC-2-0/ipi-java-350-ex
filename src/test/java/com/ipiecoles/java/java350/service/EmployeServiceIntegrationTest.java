@@ -36,9 +36,9 @@ public class EmployeServiceIntegrationTest {
     @Test
     public void integrationEmbaucheEmploye() throws EmployeException {
         //Given
-        employeRepository.save(new Employe("Doe", "John", "T12345", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0));
-        String nom = "Doe";
-        String prenom = "John";
+        employeRepository.save(new Employe("Tempu", "Ra", "T12345", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0));
+        String nom = "Tempu";
+        String prenom = "Ra";
         Poste poste = Poste.TECHNICIEN;
         NiveauEtude niveauEtude = NiveauEtude.BTS_IUT;
         Double tempsPartiel = 1.0;
@@ -78,18 +78,5 @@ public class EmployeServiceIntegrationTest {
         //Then
         Employe employe = employeRepository.findByMatricule(matricule);
         Assertions.assertEquals(6, employe.getPerformance());
-    }
-
-    @Test
-    public void integrationCalculPerformanceCommercialAvgPerf(){
-        //Given
-        Employe employe1 = new Employe("Katsu", "Don", "C00001", LocalDate.now(), Entreprise.SALAIRE_BASE, 2, 1.0);
-        Employe employe2 = new Employe("Okono", "Miyaki", "C00002", LocalDate.now(),Entreprise.SALAIRE_BASE, 4, 1.0);
-        employeRepository.save(employe1);
-        employeRepository.save(employe2);
-        //When
-        Double avgPerformance = employeRepository.avgPerformanceWhereMatriculeStartsWith("C");
-        //Then
-        Assertions.assertEquals(3.0, avgPerformance);
     }
 }
